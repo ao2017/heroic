@@ -49,6 +49,16 @@ public class FilterAggregationTest {
         verifyRoundtrip("{\"type\":\"topk\",\"k\":0}", new TopKInstance(0), TopKInstance.class);
     }
 
+//    @Test
+//    public void testTDigestStatInstance() throws Exception {
+//        // TODO: support @JsonCreator
+//        // verifyClassBuilder(TopKInstance.class).checkGetters(false).verify();
+//        double [] quantiles = {0.5,0.75,0.99};
+//        AggregationInstance aggregationInstance = new TdigestStatInstance(0, 0, quantiles );
+//        verifyRoundtrip("{\"type\":\"tdigeststat\",\"quantiles\":[0.5,0.75,0.99]}",
+//        aggregationInstance , AggregationInstance.class);
+//    }
+
     private <T> void verifyRoundtrip(
         final String json, final T reference, final Class<T> cls
     ) throws Exception {

@@ -64,6 +64,8 @@ public class FilterKAreaAggregationTest {
 
         AggregationOutput first = result.get(0);
 
+        System.out.println("Result " + result.get(0));
+
         if (first.getKey().equals(ImmutableMap.of("site", "lon"))) {
             assertEquals(ImmutableList.of(new Point(1, 3.0), new Point(2, 3.0)),
                 first.getMetrics().data());

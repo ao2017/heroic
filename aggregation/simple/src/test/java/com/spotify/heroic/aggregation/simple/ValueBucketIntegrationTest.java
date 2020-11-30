@@ -2,8 +2,12 @@ package com.spotify.heroic.aggregation.simple;
 
 import static org.junit.Assert.assertEquals;
 
+
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.spotify.heroic.aggregation.DoubleBucket;
+import com.spotify.heroic.aggregation.TDigestBucket;
+import com.spotify.heroic.metric.DistributionPoint;
 import com.spotify.heroic.metric.Point;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +23,7 @@ import java.util.function.DoubleBinaryOperator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 
 public abstract class ValueBucketIntegrationTest {
     private static final int NCPU = Runtime.getRuntime().availableProcessors();
@@ -62,6 +67,64 @@ public abstract class ValueBucketIntegrationTest {
     }
 
     public abstract Collection<? extends DoubleBucket> buckets();
+
+    public  Collection<? extends TDigestBucket> TDigestBuckets(){
+        return ImmutableList.of();
+    }
+
+    public Collection<? extends Point> expectedStat() {
+        return ImmutableList.of();
+    }
+
+
+    @Test(timeout = 10000 )
+    public void testExpectedTidgestBucket() throws InterruptedException, ExecutionException {
+        List<Point> resultPoints = ImmutableList.of();
+
+        for (final TDigestBucket bucket : TDigestBuckets()) {
+            final List<Future<Void>> futures = new ArrayList<>();
+
+            Collection<? extends Point> expected = expectedStat();
+
+            for (int iteration = 0; iteration < iterations; iteration++) {
+                final List<DistributionPoint> updates = new ArrayList<>();
+
+                double base = iteration * range;
+
+//                for (int i = 0; i < count; i++) {
+//                    final double v1 = base + (rnd.nextDouble() * range);
+//                    final double v2 = -base + (rnd.nextDouble() * range);
+//
+//                    updates.add(new Point(0L, v1));
+//                    updates.add(new Point(0L, v2));
+//
+//                    expected = fn.applyAsDouble(expected, v1);
+//                    expected = fn.applyAsDouble(expected, v2);
+//                }
+
+                for (int thread = 0; thread < threadCount; thread++) {
+                    futures.add(service.submit(new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            for (final DistributionPoint d : updates) {
+                                bucket.updateDistributionPoint(tags, d);
+                            }
+
+                            return null;
+                        }
+                    }));
+                }
+
+                for (final Future<Void> f : futures) {
+                    f.get();
+                }
+            }
+
+            assertEquals(TDigestBuckets().getClass().getSimpleName(), resultPoints,
+                expectedStat());
+        }
+    }
+
 
     @Test(timeout = 10000)
     public void testExpectedValue() throws InterruptedException, ExecutionException {
