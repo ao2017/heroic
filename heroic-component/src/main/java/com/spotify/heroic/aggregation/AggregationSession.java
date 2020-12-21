@@ -43,10 +43,8 @@ public interface AggregationSession {
 
     void updateDistributionPoints(Map<String, String> key, Set<Series> series,
                                   List<DistributionPoint> points);
-
     void updateTDigestPoints(Map<String, String> key, Set<Series> series,
                              List<TdigestPoint> points);
-
     /**
      * Get the result of this aggregator.
      */

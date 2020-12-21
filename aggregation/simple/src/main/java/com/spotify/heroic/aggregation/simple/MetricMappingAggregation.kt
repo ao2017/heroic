@@ -26,7 +26,14 @@ import com.spotify.heroic.ObjectHasher
 import com.spotify.heroic.aggregation.*
 import com.spotify.heroic.common.DateRange
 import com.spotify.heroic.common.Series
+<<<<<<< HEAD
 import com.spotify.heroic.metric.*
+=======
+import com.spotify.heroic.metric.DistributionPoint
+import com.spotify.heroic.metric.MetricGroup
+import com.spotify.heroic.metric.Payload
+import com.spotify.heroic.metric.Point
+>>>>>>> adele/distribution
 
 abstract class MetricMappingAggregation(
     @JsonIgnore val metricMappingStrategy: MetricMappingStrategy

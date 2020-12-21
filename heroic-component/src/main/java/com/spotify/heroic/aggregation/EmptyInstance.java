@@ -232,6 +232,7 @@ public class EmptyInstance implements AggregationInstance {
     }
 
     static class SubSession {
+
         private final SessionPair<TdigestPoint> tDigestPoints = new SessionPair<>();
         private final SessionPair<DistributionPoint> distributionPoints = new SessionPair<>();
         private final SessionPair<Point> points = new SessionPair<>();

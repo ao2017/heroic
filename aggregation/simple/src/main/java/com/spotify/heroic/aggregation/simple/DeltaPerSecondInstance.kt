@@ -109,11 +109,14 @@ object DeltaPerSecondInstance : AggregationInstance {
 
         override fun updateDistributionPoints(
                 key: Map<String, String>, series: Set<Series>, values: List<DistributionPoint>
+<<<<<<< HEAD
         ) {
         }
 
         override fun updateTDigestPoints(
                 key: Map<String, String>, series: Set<Series>, values: List<TdigestPoint>
+=======
+>>>>>>> adele/distribution
         ) {
         }
 

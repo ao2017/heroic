@@ -22,12 +22,12 @@ public class TdigestBucketTest {
 
 
 
-     @Test
-     public void testZeroValue(){
-         final TdigestMergingBucket b = new TdigestMergingBucket(timeStamp);
-         TDigest val = b.value();
-         Assert.assertEquals(0,val.size());
-     }
+    @Test
+    public void testZeroValue(){
+        final TdigestMergingBucket b = new TdigestMergingBucket(timeStamp);
+        TDigest val = b.value();
+        Assert.assertEquals(0,val.size());
+    }
 
     @Test
     public void testCount() throws IOException {
