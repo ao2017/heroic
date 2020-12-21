@@ -21,7 +21,7 @@ public class FilterAggregationTest {
     @Test
     public void testAboveKInstance() throws Exception {
         // TODO: support @JsonCreator
-        // verifyClassBuilder(AboveKInstance.class).checkGetters(false).verify();
+        //verifyClassBuilder(AboveKInstance.class).checkGetters(false).verify();
         verifyRoundtrip("{\"type\":\"abovek\",\"k\":0.0}", new AboveKInstance(0),
             AboveKInstance.class);
     }
@@ -49,15 +49,12 @@ public class FilterAggregationTest {
         verifyRoundtrip("{\"type\":\"topk\",\"k\":0}", new TopKInstance(0), TopKInstance.class);
     }
 
-//    @Test
-//    public void testTDigestStatInstance() throws Exception {
-//        // TODO: support @JsonCreator
-//        // verifyClassBuilder(TopKInstance.class).checkGetters(false).verify();
-//        double [] quantiles = {0.5,0.75,0.99};
-//        AggregationInstance aggregationInstance = new TdigestStatInstance(0, 0, quantiles );
-//        verifyRoundtrip("{\"type\":\"tdigeststat\",\"quantiles\":[0.5,0.75,0.99]}",
-//        aggregationInstance , AggregationInstance.class);
-//    }
+    @Test
+    public void testTDigestStatInstance() throws Exception {
+        AggregationInstance aggregationInstance = new TdigestInstance(0, 0);
+        verifyRoundtrip("{\"type\":\"tdigest\",\"size\":0,\"extent\":0}",
+        aggregationInstance , AggregationInstance.class);
+    }
 
     private <T> void verifyRoundtrip(
         final String json, final T reference, final Class<T> cls
